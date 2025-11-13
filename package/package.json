@@ -6,8 +6,22 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["memory","leak","watcher","nodejs","performance"],
+  "keywords": [
+    "memory",
+    "leak",
+    "watcher",
+    "nodejs",
+    "performance"
+  ],
   "author": "Noah",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Noax89/memory-leak-monitor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Noax89/memory-leak-monitor/issues"
+  },
+  "homepage": "https://github.com/Noax89/memory-leak-monitor#readme",
   "type": "module"
 }
