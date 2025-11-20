@@ -1,26 +1,24 @@
-import { MemoryLeakWatcher, objectTracker } from 'memory-leak-watcher';
+import { MemoryLeakWatcher } from "../package/index.js";
+import ObjectTracker from '../package/LeakObjectTracker.js';
 
-const monitor = new MemoryLeakWatcher({ interval: 1000, threshold: 10, logPerRequest: true });
+const monitor = new MemoryLeakWatcher({
+  interval: 1000,
+  threshold: 10,
+  timeout: 10000
+});
 
-// start monitoring
-monitor.start();
-
-
-const track = new objectTracker();
-const userCache = {};
-track.track(userCache, "userCachedObject")
-
+const tracker = new ObjectTracker();
+tracker.track({})
+tracker.check();
 
 
 // Listen for memory leak events
-// watcher.start("Leak Detected", ({ diff, current, previous }) => {
-//   console.log("Leak detected!", { diff, current, previous });
-// });
+monitor.start("Leak Detected", ({ diff, current, previous }) => {
+  console.log("Leak detected!", { diff, current, previous });
+});
 
 //stop after 10 seconds
-// setTimeout(() => {
-//   watcher.stop();
-// }, 10000);
+monitor.stopTimer()
 
 // allocate memory to test
 // const memoryHog = [];

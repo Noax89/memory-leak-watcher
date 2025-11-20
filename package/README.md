@@ -3,6 +3,36 @@
 
 A lightweight Node.js package to detect and warn about potential memory leaks in real-time.
 
+
+## FEATURES
+✔ Live memory sampling
+✔ Leak detection threshold
+✔ Garbage-collection awareness
+✔ Object tracking
+✔ Creation stack tracing
+✔ Strong reference detection
+✔ Middleware integration
+✔ Structured diagnostic report
+
+
+## ADVANTAGES
+
+---->> coming soon...
+
+## CAUSES
+
+---->> coming soon...
+
+
+## FIXES
+
+---->> coming soon...
+
+## USAGE
+
+ Devs can now use it in express.js app (for now).
+
+----------------------------------
 ----------------------------------
 
 ## Installation
@@ -10,36 +40,89 @@ A lightweight Node.js package to detect and warn about potential memory leaks in
 ```bash
 npm install memory-leak-watcher
 
+```
+
+-----------------------------------------
 
 ## Express Middleware Usage
 
 ```js
 import express from "express";
-import memoryLeakMiddleware from "memory-leak-watcher";
+import ObjectTracker from "memory-leak-watcher";
+import { MemoryLeakMiddleware } from "memory-leak-watcher";
 
+const tracker = new ObjectTracker();
 const app = express();
-app.use(memoryLeakMiddleware({ interval: 5000, threshold: 10, logPerRequest: true }));
 
-## Output example (as a middleware)
+app.use(express.json());
+
+// Attach middleware
+app.use(MemoryLeakMiddleware(tracker, {
+  logMemoryPerRequest: true,
+  trackRequestBody: true,
+  trackRequest: false
+}));
+
+
+// Example routes
+const leakyArray = [];
+
+app.post("/leak", (req, res) => {
+
+  // applied intentionally for leak testing
+  leakyArray.push(req.body);
+  res.json({ status: "leak added" });
+});
+
+
+app.get("/api", (req, res)=>{
+  res.json({message:"Leak Guard Api running on loacalhost 5000"})
+  console.log("Leak Guard Api running on loacalhost 5000")
+})
+
+app.listen(5000, () => console.log("Server running on port 5000"));
+
+```
+
+--------------------------------------------------
+
+## Output example (Express usage)
+
 ```yaml
-Detected Express environment — running as middleware.
-MemoryLeakMonitor started — checking every 10s
-Memory used: 24.31 MB
-Memory used: 26.44 MB
-Memory usage increased by 22.33% — possible memory leak detected!
+Server running on port 5000
+Detected Express — running as middleware
+[LeakWatcher] Memory usage: 8.87 MB
 
+          [LeakGuard] ⚠️ Memory Leak Detected!
+          Label: requestBody-1763670502900
+          Alive for: 22 seconds.
+          Leaked Size: 0.00000762939453125 MB
+          Reason: Object still strongly referenced after request cycle.
 
-## Stand-alone usage
+          Potential Causes:
+          - Referenced by a global variable
+          - Captured inside a closure
+          - Being stored in req.app.locals or similar
 
-```js
-import {MemoryLeakWatcher} from "memory-leak-watcher";
+          Created At: 2025-11-20T20:28:22.900Z
 
-const monitor = new MemoryLeakWatcher({ interval: 1000, threshold: 10 });
-monitor.start();
+          Creation Stack: Error at -> file: ///C:/Users/PC/../LeakTrackerMiddleWare.js:24:15 ...
+
+```
+-----------------------------------------------------------------
+
+## Stand-alone usage (both MemoryLeakWatcher && ObjectTracker)
+
+---->> coming soon...
+
+----------------------------------------------------------
+
+## Stand-alone usage (ObjectTracker only)
+
+---->> coming soon...
+
+----------------------------------------------------------
 
 ## Output example (as a Stand-alone)
-```yaml
-Running in standalone mode (non-Express).
-MemoryLeakMonitor started — checking every 10s
-Memory usage increased by 15.83% — possible memory leak detected!
 
+ ---->> coming soon...

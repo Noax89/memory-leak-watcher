@@ -1,16 +1,17 @@
 import EventEmitter from 'events';
 
 class MemoryLeakWatcher extends EventEmitter{
-  constructor({interval, threshold, logPerRequest = false} = {}){
+  constructor({interval, threshold, timeout} = {}){
     super();
     this.interval = interval;
-    this.logPerRequest = logPerRequest;
     this.threshold = threshold;
+    this.timeout = timeout;
     this.previousMemory = 0;
     this.timer = null;
     this.consecutiveLeaks = 0;
   }
 
+  
   start(){
     this.previousMemory = process.memoryUsage().heapUsed;
     this.timer = setInterval(()=> this.check(),this.interval);
@@ -22,10 +23,16 @@ class MemoryLeakWatcher extends EventEmitter{
     console.log("MemoryLeakWatcher stopped.")
   }
 
+  stopTimer(){
+  setTimeout(() => {
+  this.stop();
+  }, this.timeout);
+  }
+
   check(){
     const used = process.memoryUsage().heapUsed / 1024 / 1024;
     const current = parseFloat(used.toFixed(2));
-    current
+
     // skip difference (diff) check on first run
     if (this.previousMemory === null) {
     this.previousMemory = current;
@@ -36,11 +43,22 @@ class MemoryLeakWatcher extends EventEmitter{
     const diff =((current - this.previousMemory)/this.previousMemory) * 100;
 
     if(diff > this.threshold){
-      const message = `Memory usage increased by ${diff.toFixed(2)}% \n(prev: ${this.previousMemory}MB → curr: ${current}MB) 
-      - possible memory leak detected!`;
-      console.warn(message); 
+      const error = new Error("New Memory Leak Trace");
+      const stack = error.stack;
 
-      this.emit("Leak Detected", { diff, current, previous: this.previousMemory})
+      const report = { 
+        diff, 
+        current, 
+        previous: this.previousMemory, 
+        stack,
+      }
+
+      const message = `Memory usage increased by ${diff.toFixed(2)}% \n
+      (prev: ${this.previousMemory}MB → curr: ${current}MB) 
+      - possible memory leak detected!`;
+      console.warn(message, report); 
+
+      this.emit("Leak Detected", report)
       
       // this is optional: Take a heap snapshot or count this as a warning strike
       this.consecutiveLeaks = (this.consecutiveLeaks || 0) + 1;
@@ -68,68 +86,4 @@ class MemoryLeakWatcher extends EventEmitter{
     }
 }
 
-
-// Middleware function && 
-// Automatically detects if used in Express or standalone.
-
-const memoryLeakMiddleware =(options ={})=>{
-  const monitor = new MemoryLeakWatcher(options);
-  monitor.start();
-
-  const middleware = (req, res, next)=>{
-
-    if(monitor.logPerRequest){
-    console.log(`Memory usage: ${monitor.getMemoryUsage()}`)
-    next();
-    }
-  
-  // Auto-detect Express usage
-  const isExpressEnvironment = typeof options === "obeject" && process.main?.children?.some((module)=>
-  module.id.includes("express"))
-
-
-  // if !express switch to stand-alone mode
-
-  if(!isExpressEnvironment){
-     console.log("Running in standalone mode (non-Express).");
-  } else {
-    console.log("Detected Express environment — running as middleware.");
-  }
-
-  // return middleware (works for both mode)
-  return middleware;
-
-  }
-}
-
-
-// OBJECT TRACKER
-/* A class based object that Wraps known objects (arrays, requests, etc.), 
-Keeps WeakRefs then report which ones never got garbage-collected */
-
-class objectTracker{
-    constructor(){
-      this.refs = new Set();
-    }
-
-    /*Track objects, push garbaged objects to weakRefs
-     and cleanup the object if nothing else is refrencing it.*/
-
-    track(obj, label = "unknown"){
-      this.refs.add({ r: new WeakRef(obj), label})
-    }
-
-    //check then report which ones never got garbage-collected
-
-    check(){
-      for(const entry of this.refs){
-        if(entry.r.deref()){
-        console.log(`Object [${entry.label}] still alive`);
-        }
-      }
-    }
-}
-
-
-export default memoryLeakMiddleware;
-export {MemoryLeakWatcher, objectTracker}
+export {MemoryLeakWatcher}
