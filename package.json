@@ -1,12 +1,11 @@
 {
   "name": "memory-leak-watcher",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A light weight Nodejs package to detect and warn about potential memory leaks in real-time.",
   "main": "package/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-
   "keywords": [
     "memory",
     "leak",
