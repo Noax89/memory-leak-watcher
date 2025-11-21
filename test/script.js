@@ -1,4 +1,4 @@
-import { MemoryLeakWatcher } from "../package/index.js";
+import  MemoryLeakWatcher  from "../package/index.js";
 import ObjectTracker from '../package/LeakObjectTracker.js';
 
 const monitor = new MemoryLeakWatcher({

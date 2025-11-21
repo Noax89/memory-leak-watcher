@@ -3,7 +3,7 @@
 // Middleware function && 
 // Automatically detects if used in Express or standalone.
 
-export function MemoryLeakMiddleware (tracker, options={}){
+export default function MemoryLeakMiddleware (tracker, options={}){
   
   const { logMemoryPerRequest = true, trackRequestBody = true, trackRequest = false } = options;
 

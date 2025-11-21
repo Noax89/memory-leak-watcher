@@ -86,4 +86,4 @@ class MemoryLeakWatcher extends EventEmitter{
     }
 }
 
-export {MemoryLeakWatcher}
+export default MemoryLeakWatcher
