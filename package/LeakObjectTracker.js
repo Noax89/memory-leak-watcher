@@ -1,6 +1,6 @@
 
 
-class ObjectTracker{
+export class ObjectTracker{
   
     constructor(){
       this.tracked = new Map()
@@ -103,5 +103,3 @@ class ObjectTracker{
       return results
     }
 }
-
-export default ObjectTracker

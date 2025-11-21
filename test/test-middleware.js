@@ -1,5 +1,5 @@
 import express from "express";
-import ObjectTracker from "../package/LeakObjectTracker.js";
+import {ObjectTracker} from "../package/LeakObjectTracker.js";
 import  MemoryLeakMiddleware  from "../package/LeakTrackerMiddleWare.js";
 
 const tracker = new ObjectTracker();

@@ -48,7 +48,7 @@ npm install memory-leak-watcher
 
 ```js
 import express from "express";
-import ObjectTracker from "memory-leak-watcher";
+import {ObjectTracker} from "memory-leak-watcher";
 import MemoryLeakMiddleware from "memory-leak-watcher";
 
 const tracker = new ObjectTracker();
