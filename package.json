@@ -1,35 +1,38 @@
 {
   "name": "memory-leak-watcher",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A light weight Nodejs package to detect and warn about potential memory leaks in real-time.",
   "main": "package/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords":  [
-  "memory", 
-  "leak", 
-  "profiler", 
-  "nodejs", 
-  "express", 
-  "performance", 
-  "debugging"],
 
-  "files": ["package"],
-
+  "keywords": [
+    "memory",
+    "leak",
+    "profiler",
+    "nodejs",
+    "express",
+    "performance",
+    "debugging"
+  ],
+  "files": [
+    "package",
+    "README.md",
+    "LICENSE"
+  ],
   "author": "Noah",
-
   "license": "MIT",
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Noax89/memory-leak-monitor.git"
   },
-
   "bugs": {
     "url": "https://github.com/Noax89/memory-leak-monitor/issues"
   },
-
   "homepage": "https://github.com/Noax89/memory-leak-monitor#readme",
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./package/index.js"
+  }
 }
