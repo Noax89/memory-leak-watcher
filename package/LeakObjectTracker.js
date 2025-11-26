@@ -1,6 +1,6 @@
 
 
-export class ObjectTracker{
+export default class ObjectTracker{
   
     constructor(){
       this.tracked = new Map()

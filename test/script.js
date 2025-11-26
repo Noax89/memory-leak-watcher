@@ -21,9 +21,9 @@ monitor.start("Leak Detected", ({ diff, current, previous }) => {
 monitor.stopTimer()
 
 // allocate memory to test
-// const memoryHog = [];
-// setInterval(() => {
-//   for (let i = 0; i < 100000; i++) {
-//     memoryHog.push(i);
-//   }
-// }, 2000);
+const memoryHog = [];
+setInterval(() => {
+  for (let i = 0; i < 100000; i++) {
+    memoryHog.push(i);
+  }
+}, 2000);

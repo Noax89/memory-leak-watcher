@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
 import MemoryLeakMiddleware from './LeakTrackerMiddleWare.js';
-import { ObjectTracker } from './LeakObjectTracker.js';
+import ObjectTracker from './LeakObjectTracker.js';
 
 
 class MemoryLeakWatcher extends EventEmitter{
