@@ -1,6 +1,6 @@
 import EventEmitter from 'events';
-import MemoryLeakMiddleware from './LeakTrackerMiddleWare';
-import { ObjectTracker } from './LeakObjectTracker';
+import MemoryLeakMiddleware from './LeakTrackerMiddleWare.js';
+import { ObjectTracker } from './LeakObjectTracker.js';
 
 
 class MemoryLeakWatcher extends EventEmitter{
@@ -88,8 +88,6 @@ class MemoryLeakWatcher extends EventEmitter{
       return (process.memoryUsage().heapUsed / 1024 / 1024 ).toFixed(2) + "MB";
     }
 }
-// Named export
-export { ObjectTracker };
 
-// Default export
-export default {MemoryLeakWatcher, MemoryLeakMiddleware}
+export { MemoryLeakWatcher, MemoryLeakMiddleware, ObjectTracker };
+export default MemoryLeakWatcher;
