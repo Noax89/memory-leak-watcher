@@ -5,7 +5,7 @@
 
 export default function MemoryLeakMiddleware (tracker, options={}){
   
-  const { logMemoryPerRequest = true, trackRequestBody = true, trackRequest = false } = options;
+  const { logMemoryPerRequest, trackRequestBody, trackRequest } = options;
 
   return function(req, res, next){
 
@@ -21,10 +21,10 @@ export default function MemoryLeakMiddleware (tracker, options={}){
 
     // TRACK OBJECTS
     if(trackRequestBody && req.body){
-      tracker.track(req.body, `requestBody-${Date.now()}`)
+      tracker.track(req, `requestBody-${Date.now()}`)
     }
     if(trackRequest){
-      tracker.track(req.body, `requestObject-${Date.now()}`)
+      tracker.track(req, `requestObject-${Date.now()}`)
     }
 
     // Log memory per request
