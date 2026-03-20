@@ -1,9 +1,15 @@
-
-import ObjectTracker from '../package/LeakObjectTracker.js';
+import ObjectTracker from "../package/ObjectTracker.js";
 
 const tracker = new ObjectTracker();
 
-const userCahche = {};
+function handleRequest(req) {
+  tracker.track(req.body, `req.body:${Date.now()}`);
+  // ... process request
+}
 
-tracker.track(userCahche, "userCachedObjects")
-tracker.check();
+// Later — inspect what's still in memory
+const report = tracker.report();
+
+for (const entry of report) {
+  console.log(entry.label, entry.isAlive, entry.estimatedSize + ' MB');
+}

@@ -1,35 +1,22 @@
-import express from "express";
-import ObjectTracker from "../package/LeakObjectTracker.js";
-import  MemoryLeakMiddleware  from "../package/LeakTrackerMiddleWare.js";
+import express from 'express';
+import createLeakMiddleware from '../package/Leakmiddleware.js';
+import ObjectTracker  from '../package/ObjectTracker.js';
 
-const tracker = new ObjectTracker();
 const app = express();
+const tracker = new ObjectTracker();
 
 app.use(express.json());
-
-// Attach middleware
-app.use(MemoryLeakMiddleware(tracker, {
-  logMemoryPerRequest: true,
-  trackRequestBody: true,
-  trackRequest: false
+app.use(createLeakMiddleware(tracker, {
+  logMemoryPerRequest: true,   // log heap on every request
+  trackRequestBody:    true,   // track req.body through ObjectTracker
+  trackRequest:        false,  // track the full req object (heavier)
 }));
 
-// Example routes
- const leakyArray = [];
-
-app.post("/leak", (req, res) => {
-  // applied intentionally for leak testing
-  leakyArray.push(req.body);
-  res.json({ status: "leak added" });
+// Intentional leak — for testing
+const leakyCache = [];
+app.post('/leak', (req, res) => {
+  leakyCache.push(req.body);
+  res.json({ status: 'stored' });
 });
 
-app.post("/ok", (req, res) => {
-  res.json({ status: "ok" });
-});
-
-app.get("/api", (req, res)=>{
-  res.json({message:"Leak Guard Api running on loacalhost 5000"})
-  console.log("Leak Guard Api running on loacalhost 5000")
-})
-
-app.listen(5000, () => console.log("Server running on port 5000"));
+app.listen(3000);
