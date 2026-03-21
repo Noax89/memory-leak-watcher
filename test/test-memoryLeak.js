@@ -1,4 +1,4 @@
-import MemoryLeakWatcher from "../package/MemoryLeakWatcher.js";
+import MemoryLeakWatcher from "../src/MemoryLeakWatcher.js";
 
 const watcher = new MemoryLeakWatcher({
   interval:       5_000,  // sample every 5 s

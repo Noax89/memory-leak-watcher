@@ -1,5 +1,5 @@
-import MemoryLeakWatcher from '../package/MemoryLeakWatcher.js';
-import ObjectTracker from "../package/ObjectTracker.js"
+import MemoryLeakWatcher from '../src/MemoryLeakWatcher.js';
+import ObjectTracker from "../src/ObjectTracker.js"
 
 const tracker = new ObjectTracker();
 const watcher = new MemoryLeakWatcher({ interval: 3_000, threshold: 5 });

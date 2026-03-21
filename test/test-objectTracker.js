@@ -1,4 +1,4 @@
-import {ObjectTracker} from "../package/ObjectTracker.js";
+import {ObjectTracker} from "../src/ObjectTracker.js";
 
 const tracker = new ObjectTracker();
 

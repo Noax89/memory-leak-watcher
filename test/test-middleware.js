@@ -1,6 +1,6 @@
 import express from 'express';
-import createLeakMiddleware from '../package/Leakmiddleware.js';
-import {ObjectTracker}  from '../package/ObjectTracker.js';
+import createLeakMiddleware from '../src/Leakmiddleware.js';
+import {ObjectTracker}  from '../src/ObjectTracker.js';
 
 const app = express();
 const tracker = new ObjectTracker();
