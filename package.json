@@ -16,7 +16,7 @@
     "debugging"
   ],
   "files": [
-    "package",
+    "src",
     "README.md",
     "LICENSE"
   ],
